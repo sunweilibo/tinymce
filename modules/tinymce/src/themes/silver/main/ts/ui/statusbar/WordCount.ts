@@ -6,7 +6,7 @@
  */
 
 import {
-  AddEventsBehaviour, AlloyEvents, Behaviour, Button, GuiFactory, Replacing, Representing, SimpleSpec, Tabstopping
+  AddEventsBehaviour, AlloyEvents, Behaviour, Button, GuiFactory, Replacing, Representing, SimpleSpec, SystemEvents, Tabstopping
 } from '@ephox/alloy';
 import Editor from 'tinymce/core/api/Editor';
 import { UiFactoryBackstageProviders } from '../../backstage/Backstage';
@@ -19,15 +19,13 @@ const enum WordCountMode {
 }
 
 export const renderWordCount = (editor: Editor, providersBackstage: UiFactoryBackstageProviders): SimpleSpec => {
-  const maxCharacterLength = editor.getParam('maxCharacterLength');
-  const template= maxCharacterLength ? '{0}/{1} ' : '{0} ';
-  const replaceCountText = (comp, count, mode) => Replacing.set(comp, [ GuiFactory.text(providersBackstage.translate([ template + mode, count[mode], maxCharacterLength ])) ]);
+  const replaceCountText = (comp, count, mode) => Replacing.set(comp, [ GuiFactory.text(providersBackstage.translate([ '{0} ' + mode, count[mode] ])) ]);
 
   return Button.sketch({
     dom: {
       // The tag for word count was changed to 'button' as Jaws does not read out spans.
       // Word count is just a toggle and changes modes between words and characters.
-      tag: 'p',
+      tag: 'button',
       classes: [ 'tox-statusbar__wordcount' ]
     },
     components: [ ],
@@ -40,7 +38,7 @@ export const renderWordCount = (editor: Editor, providersBackstage: UiFactoryBac
         store: {
           mode: 'memory',
           initialValue: {
-            mode: WordCountMode.Characters,
+            mode: WordCountMode.Words,
             count: { words: 0, characters: 0 }
           }
         }
@@ -48,7 +46,7 @@ export const renderWordCount = (editor: Editor, providersBackstage: UiFactoryBac
       AddEventsBehaviour.config('wordcount-events', [
         AlloyEvents.runOnExecute((comp) => {
           const currentVal = Representing.getValue(comp);
-          const newMode = WordCountMode.Characters;
+          const newMode = currentVal.mode === WordCountMode.Words ? WordCountMode.Characters : WordCountMode.Words;
           Representing.setValue(comp, { mode: newMode, count: currentVal.count });
           replaceCountText(comp, currentVal.count, newMode);
         }),
@@ -62,7 +60,7 @@ export const renderWordCount = (editor: Editor, providersBackstage: UiFactoryBac
       ])
     ]),
     eventOrder: {
-      'alloy.execute': [ 'disabling', 'alloy.base.behaviour', 'wordcount-events' ]
+      [SystemEvents.execute()]: [ 'disabling', 'alloy.base.behaviour', 'wordcount-events' ]
     }
   });
 };
