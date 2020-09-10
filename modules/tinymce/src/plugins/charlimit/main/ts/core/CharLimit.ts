@@ -9,19 +9,40 @@ import Delay from 'tinymce/core/api/util/Delay';
 import * as Events from '../api/Events';
 import Editor from 'tinymce/core/api/Editor';
 import { WordCountApi } from '../api/Api';
-
+import { getMaxCharacterLength } from '../api/Settings';
 const updateCount = (editor: Editor, api: WordCountApi) => {
   Events.fireWordCountUpdate(editor, api);
 };
 
 const setup = (editor: Editor, api: WordCountApi, delay: number) => {
   const debouncedUpdate = Delay.debounce(() => updateCount(editor, api), delay);
+  const maxCharLength = getMaxCharacterLength(editor);
 
   editor.on('init', () => {
-    updateCount(editor, api);
+    if (!editor.plugins.paste) {
+      editor.notificationManager.open({
+        text: '请使用 paste 插件，否则无法限制粘贴字符'
+      });
+    }
     Delay.setEditorTimeout(editor, () => {
       editor.on('SetContent BeforeAddUndo Undo Redo keyup', debouncedUpdate);
     }, 0);
+  });
+  editor.on('keydown', (e) => {
+    const keycode: Number = e.keyCode;
+    // 删除键可以使用
+    if (api.body.getCharacterCount() >= maxCharLength && keycode !== 8 && keycode!==46) {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+  });
+
+  // 使用 paste 插件事件
+  editor.on('PastePreProcess', function (args) {
+    const currentCharacterCount = api.body.getCharacterCount();
+    const extraSpace = maxCharLength - currentCharacterCount;
+    args.content = extraSpace > 0 ? args.content.slice(0, extraSpace) : '';
   });
 };
 

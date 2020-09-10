@@ -11,7 +11,7 @@ let plugins = [
   'fullscreen', 'hr', 'image', 'teacheeimage', 'imagetools', 'importcss', 'insertdatetime', 'legacyoutput', 'link',
   'lists', 'media', 'nonbreaking', 'noneditable', 'pagebreak', 'paste', 'preview', 'print', 'save',
   'searchreplace', 'spellchecker', 'tabfocus', 'table', 'template', 'textcolor', 'textpattern', 'toc',
-  'visualblocks', 'visualchars', 'wordcount', 'quickbars',
+  'visualblocks', 'visualchars', 'wordcount', 'quickbars', 'charlimit'
 ];
 
 let themes = [

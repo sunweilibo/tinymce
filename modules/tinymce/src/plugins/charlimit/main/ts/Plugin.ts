@@ -7,15 +7,13 @@
 
 import PluginManager from 'tinymce/core/api/PluginManager';
 import * as Api from './api/Api';
-import * as Wordcounter from './core/WordCounter';
-import * as Buttons from './ui/Buttons';
+import * as CharLimit from './core/CharLimit';
 
 export default function (delay: number = 300) {
-  PluginManager.add('wordcount', (editor) => {
+  PluginManager.add('charlimit', (editor) => {
     const api = Api.get(editor);
 
-    Buttons.register(editor, api);
-    Wordcounter.setup(editor, api, delay);
+    CharLimit.setup(editor, api, delay);
     return api;
   });
 }

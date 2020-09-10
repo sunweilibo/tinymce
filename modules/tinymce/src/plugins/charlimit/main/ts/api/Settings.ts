@@ -6,16 +6,9 @@
  */
 
 import Editor from 'tinymce/core/api/Editor';
-import { WordCountApi } from './Api';
 
-const fireWordCountUpdate = (editor: Editor, api: WordCountApi) => {
-  editor.fire('wordCountUpdate', {
-    wordCount: {
-      characters: api.body.getCharacterCount()
-    }
-  });
-};
+const getMaxCharacterLength = (editor: Editor) => editor.getParam('maxCharacterLength', 20, 'number');
 
 export {
-  fireWordCountUpdate
+  getMaxCharacterLength
 };

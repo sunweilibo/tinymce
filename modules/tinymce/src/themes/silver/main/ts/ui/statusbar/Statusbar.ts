@@ -14,6 +14,7 @@ import { get as getIcon } from '../icons/Icons';
 import { resize, ResizeTypes } from '../sizing/Resize';
 import * as ElementPath from './ElementPath';
 import { renderWordCount } from './WordCount';
+import { renderCharLimit } from './CharLimit';
 
 const renderStatusbar = (editor: Editor, providersBackstage: UiFactoryBackstageProviders): SimpleSpec => {
   const renderResizeHandlerIcon = (resizeType: ResizeTypes): SimpleSpec => ({
@@ -72,6 +73,10 @@ const renderStatusbar = (editor: Editor, providersBackstage: UiFactoryBackstageP
 
     if (Strings.contains(editor.getParam('plugins', '', 'string'), 'wordcount')) {
       components.push(renderWordCount(editor, providersBackstage));
+    }
+
+    if (Strings.contains(editor.getParam('plugins', '', 'string'), 'charlimit')) {
+      components.push(renderCharLimit(editor, providersBackstage));
     }
 
     if (editor.getParam('branding', true, 'boolean')) {
