@@ -14,7 +14,6 @@ import * as ReadOnly from '../../ReadOnly';
 import { DisablingConfigs } from '../alien/DisablingConfigs';
 
 const enum WordCountMode {
-  Words = 'words',
   Characters = 'characters'
 }
 

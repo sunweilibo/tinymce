@@ -2,7 +2,7 @@ declare let tinymce: any;
 
 tinymce.init({
   selector: 'textarea.tinymce',
-  plugins: 'charlimit code',
+  plugins: 'charlimit code paste',
   toolbar: 'charlimit',
   height: 600,
   paste_as_text: true,

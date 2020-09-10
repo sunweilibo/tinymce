@@ -24,6 +24,7 @@ const setup = (editor: Editor, api: WordCountApi, delay: number) => {
         text: '请使用 paste 插件，否则无法限制粘贴字符'
       });
     }
+    updateCount(editor, api);
     Delay.setEditorTimeout(editor, () => {
       editor.on('SetContent BeforeAddUndo Undo Redo keyup', debouncedUpdate);
     }, 0);
