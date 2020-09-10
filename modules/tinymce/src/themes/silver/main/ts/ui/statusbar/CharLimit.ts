@@ -18,7 +18,7 @@ const enum WordCountMode {
 }
 
 export const renderCharLimit = (editor: Editor, providersBackstage: UiFactoryBackstageProviders): SimpleSpec => {
-  const maxCharacterLength = editor.getParam('maxCharacterLength', '20', 'string');
+  const maxCharacterLength = editor.getParam('maxCharacterLength', 20, 'number');
   const replaceCountText = (comp, count, mode) => Replacing.set(comp, [ GuiFactory.text(providersBackstage.translate([ '{0}/{1} ' + mode, count[mode], maxCharacterLength ])) ]);
 
   return Button.sketch({

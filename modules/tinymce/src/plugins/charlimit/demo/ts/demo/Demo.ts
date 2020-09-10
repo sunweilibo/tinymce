@@ -6,7 +6,7 @@ tinymce.init({
   toolbar: 'charlimit',
   height: 600,
   paste_as_text: true,
-  maxCharacterLength: 20
+  maxCharacterLength: 30
 });
 
 export {};
