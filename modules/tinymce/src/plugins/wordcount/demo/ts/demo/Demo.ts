@@ -4,8 +4,7 @@ tinymce.init({
   selector: 'textarea.tinymce',
   plugins: 'wordcount code',
   toolbar: 'wordcount',
-  height: 600,
-  maxCharacterLength: 20
+  height: 600
 });
 
 export {};

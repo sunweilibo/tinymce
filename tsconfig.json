@@ -80,6 +80,7 @@
       "tinymce/plugins/visualblocks/*": ["modules/tinymce/src/plugins/visualblocks/main/ts/*"],
       "tinymce/plugins/visualchars/*": ["modules/tinymce/src/plugins/visualchars/main/ts/*"],
       "tinymce/plugins/wordcount/*": ["modules/tinymce/src/plugins/wordcount/main/ts/*"],
+      "tinymce/plugins/charlimit/*": ["modules/tinymce/src/plugins/charlimit/main/ts/*"],
 
       "@ephox/oxide-icons-default": ["modules/oxide-icons-default/dist/js/Main.d.js"],
 
