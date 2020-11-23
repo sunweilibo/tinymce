@@ -4,7 +4,6 @@
  * For LGPL see License.txt in the project root for license information.
  * For commercial licenses see https://www.tiny.cloud/
  */
-
 import Delay from 'tinymce/core/api/util/Delay';
 import * as Events from '../api/Events';
 import Editor from 'tinymce/core/api/Editor';
@@ -36,6 +35,24 @@ const setup = (editor: Editor, api: WordCountApi, delay: number) => {
       e.preventDefault();
       e.stopPropagation();
       return false;
+    }
+  });
+
+  editor.on('compositionend', (e) => {
+    const input = e.data;
+    const inputLength = e.data.length;
+    const rng = editor.selection.getRng();
+    const node = rng.startContainer;
+    const curOffset = rng.startOffset;
+    let replaceContent;
+    if (inputLength + api.body.getCharacterCount() > maxCharLength) {
+      const remainLen = api.body.getCharacterCount() - maxCharLength;
+      replaceContent = input.substring(0, remainLen);
+      const rng: Range = editor.dom.createRng();
+      rng.setStart(node, curOffset - inputLength);
+      rng.setEnd(node, curOffset);
+      editor.selection.setRng(rng);
+      editor.selection.setContent(replaceContent);
     }
   });
 
